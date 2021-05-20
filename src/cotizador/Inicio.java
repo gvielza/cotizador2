@@ -8,13 +8,24 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.Position;
 
+import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.BreakType;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.w3c.dom.Document;
+
+import com.mysql.cj.xdevapi.JsonParser;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -58,6 +69,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -84,18 +96,165 @@ public class Inicio extends JFrame {
 	private ButtonGroup bg3 = new ButtonGroup();
 	private JTextField textField_4;
 	private ButtonGroup SEMI_KMTROS = new ButtonGroup();
+	private ButtonGroup SEMI_FM = new ButtonGroup();
 	private ButtonGroup CARM_AXH = new ButtonGroup();
 	private ButtonGroup EXT_MET = new ButtonGroup();
 	private ButtonGroup EXT_AXH = new ButtonGroup();
 	private JTextField textField;
 	private ButtonGroup tipocliente = new ButtonGroup();
+	public double[] arraysemis = new double[55];
+
+	public double[][] arraycmecanico = new double[5][7];
+	public double[][][] arrayextensible = new double[3][5][6];
+	public double[] arraymodloh = new double[6];
+	public double[] arrayacompa = new double[7];
+
+	public void AgregarValoresDeSemis(double[] a) {
+		Workbook w;
+		int i = 0;
+		try {
+			w = WorkbookFactory.create(new File("datos.xlsx"));
+			Sheet hoja = w.getSheetAt(0);
+			Iterator<Row> col = hoja.rowIterator();
+			while (col.hasNext()) {
+				Row row = (Row) col.next();
+				String cellValue = String.valueOf(row.getCell(1));
+				arraysemis[i] = Double.parseDouble(cellValue);
+				i++;
+			}
+			w.close();
+			AgregarValoresDeSemisFueraMedida(arraysemis);
+			AgregarValoresDeAcompa(arrayacompa);
+			AgregarValoresDeMec(arraycmecanico);
+			AgregarValoresDeExtensible(arrayextensible);
+			AgregarValoresDemoduloHidra(arraymodloh);
+		} catch (EncryptedDocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void AgregarValoresDeSemisFueraMedida(double[] a) {
+		Workbook w;
+		int i = 44;
+		try {
+			w = WorkbookFactory.create(new File("datos.xlsx"));
+			Sheet hoja = w.getSheetAt(1);
+			Iterator<Row> col = hoja.rowIterator();
+			while (col.hasNext()) {
+				Row row = (Row) col.next();
+				String cellValue = String.valueOf(row.getCell(1));
+				arraysemis[i] = Double.parseDouble(cellValue);
+				i++;
+			}
+			w.close();
+		} catch (EncryptedDocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void AgregarValoresDemoduloHidra(double[] a) {
+		Workbook w;
+		int i = 0;
+		try {
+			w = WorkbookFactory.create(new File("datos.xlsx"));
+			Sheet hoja = w.getSheetAt(4);
+			Iterator<Row> col = hoja.rowIterator();
+			while (col.hasNext()) {
+				Row row = (Row) col.next();
+				String cellValue = String.valueOf(row.getCell(1));
+				a[i] = Double.parseDouble(cellValue);
+				i++;
+			}
+			w.close();
+		} catch (EncryptedDocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void AgregarValoresDeAcompa(double[] a) {
+		Workbook w;
+		int i = 0;
+		try {
+			w = WorkbookFactory.create(new File("datos.xlsx"));
+			Sheet hoja = w.getSheetAt(5);
+			Iterator<Row> col = hoja.rowIterator();
+			while (col.hasNext()) {
+				Row row = (Row) col.next();
+				String cellValue = String.valueOf(row.getCell(1));
+				arrayacompa[i] = Double.parseDouble(cellValue);
+				i++;
+			}
+			w.close();
+		} catch (EncryptedDocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void AgregarValoresDeMec(double[][] a) {
+		Workbook w;
+		try {
+			w = WorkbookFactory.create(new File("datos.xlsx"));
+			Sheet hoja = w.getSheetAt(2);
+			Iterator<Row> col = hoja.rowIterator();
+
+			while (col.hasNext()) {
+				for (int i = 0; i < 5; i++) {
+					for (int j = 0; j < 7; j++) {
+						Row row = (Row) col.next();
+						String cellValue = String.valueOf(row.getCell(1));
+						a[i][j] = Double.parseDouble(cellValue);
+					}
+				}
+			}
+			w.close();
+		} catch (EncryptedDocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void AgregarValoresDeExtensible(double[][][] a) {
+		Workbook w;
+		try {
+			w = WorkbookFactory.create(new File("datos.xlsx"));
+			Sheet hoja = w.getSheetAt(3);
+			Iterator<Row> col = hoja.rowIterator();
+			while (col.hasNext()) {
+				for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 5; j++) {
+						for (int k = 0; k < 6; k++) {
+							Row row = (Row) col.next();
+							String cellValue = String.valueOf(row.getCell(1));
+							a[i][j][k] = Double.parseDouble(cellValue);
+						}
+					}
+				}
+			}
+			w.close();
+		} catch (EncryptedDocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	boolean acompañamientopolicial = false;
 	boolean acompañamientoparticular = false;
 	boolean operario = false;
 	boolean pagoaccesible, pagomas60 = false;
-	int valorXcarreton=25;
+
 	private JTextField textField_1;
+	private JTextField textFieldcarga;
+	private JTextField textFieldDimens;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -129,52 +288,53 @@ public class Inicio extends JFrame {
 		getContentPane().add(lblNewLabel_1);
 
 		textField_destino = new JTextField();
-		textField_destino.setBounds(430, 25, 203, 20);
+		textField_destino.setBounds(440, 25, 193, 20);
 		getContentPane().add(textField_destino);
 		textField_destino.setColumns(10);
 
 		JLabel lblNewLabel_2 = new JLabel("KM RECORRIDOS:");
-		lblNewLabel_2.setBounds(48, 59, 103, 14);
+		lblNewLabel_2.setForeground(Color.BLUE);
+		lblNewLabel_2.setBounds(48, 103, 103, 14);
 		getContentPane().add(lblNewLabel_2);
 
 		textField_kmrec = new JTextField();
-		textField_kmrec.setBounds(156, 56, 61, 20);
+		textField_kmrec.setBounds(165, 100, 52, 20);
 		getContentPane().add(textField_kmrec);
 		textField_kmrec.setColumns(10);
 
 		JLabel lblNewLabel_3 = new JLabel("DIAS OPERATIVOS: ");
-		lblNewLabel_3.setBounds(48, 94, 118, 14);
+		lblNewLabel_3.setBounds(48, 78, 118, 14);
 		getContentPane().add(lblNewLabel_3);
 
 		textFDIAS_OPER = new JTextField();
-		textFDIAS_OPER.setBounds(156, 87, 52, 20);
+		textFDIAS_OPER.setBounds(165, 75, 52, 20);
 		getContentPane().add(textFDIAS_OPER);
 		textFDIAS_OPER.setColumns(10);
 
 		JLabel lblNewLabel_4 = new JLabel("DIAS RETORNOS: ");
-		lblNewLabel_4.setBounds(277, 94, 103, 14);
+		lblNewLabel_4.setBounds(277, 78, 103, 14);
 		getContentPane().add(lblNewLabel_4);
 
 		textFDiasR = new JTextField();
-		textFDiasR.setBounds(379, 91, 52, 20);
+		textFDiasR.setBounds(379, 75, 52, 20);
 		getContentPane().add(textFDiasR);
 		textFDiasR.setColumns(10);
 
 		JLabel lblNewLabel_5 = new JLabel("D\u00CDAS CARGA Y DESCARGA: ");
-		lblNewLabel_5.setBounds(454, 94, 155, 14);
+		lblNewLabel_5.setBounds(454, 78, 155, 14);
 		getContentPane().add(lblNewLabel_5);
 
 		textField_diasC = new JTextField();
-		textField_diasC.setBounds(608, 91, 43, 20);
+		textField_diasC.setBounds(608, 75, 43, 20);
 		getContentPane().add(textField_diasC);
 		textField_diasC.setColumns(10);
 
 		JLabel lblNewLabel_6 = new JLabel("ACOMPA\u00D1AMIENTO POLICIAL :");
-		lblNewLabel_6.setBounds(48, 119, 193, 26);
+		lblNewLabel_6.setBounds(48, 124, 193, 26);
 		getContentPane().add(lblNewLabel_6);
 
 		JLabel lblNewLabel_7 = new JLabel("ACOMPA\u00D1AMIENTO PARTICULAR: ");
-		lblNewLabel_7.setBounds(389, 125, 220, 14);
+		lblNewLabel_7.setBounds(389, 127, 220, 20);
 		getContentPane().add(lblNewLabel_7);
 
 		JLabel lblNewLabel_8 = new JLabel("D\u00CDAS EN BS AS: ");
@@ -243,19 +403,19 @@ public class Inicio extends JFrame {
 		getContentPane().add(rdbtnmntmNewRadioItem_4);
 
 		JRadioButton policialsi = new JRadioButton("SI");
-		policialsi.setBounds(247, 121, 43, 23);
+		policialsi.setBounds(247, 124, 43, 23);
 		getContentPane().add(policialsi);
 
 		JRadioButton policialno = new JRadioButton("NO");
-		policialno.setBounds(287, 121, 43, 23);
+		policialno.setBounds(287, 124, 43, 23);
 		getContentPane().add(policialno);
 
 		JRadioButton particularsi = new JRadioButton("SI");
-		particularsi.setBounds(608, 121, 43, 23);
+		particularsi.setBounds(608, 124, 43, 23);
 		getContentPane().add(particularsi);
 
 		JRadioButton particularno = new JRadioButton("NO");
-		particularno.setBounds(655, 121, 43, 23);
+		particularno.setBounds(655, 124, 43, 23);
 		getContentPane().add(particularno);
 
 		JLabel lblNewLabel_9 = new JLabel("OPERARIO: ");
@@ -355,203 +515,225 @@ public class Inicio extends JFrame {
 		lblNewLabel_11_1_8_1.setBounds(431, 348, 90, 14);
 		getContentPane().add(lblNewLabel_11_1_8_1);
 
-		JLabel lblNewLabel_11_1_8_1_1 = new JLabel("SEMI +500KM");
-		lblNewLabel_11_1_8_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_11_1_8_1_1.setForeground(new Color(128, 0, 0));
-		lblNewLabel_11_1_8_1_1.setBounds(431, 371, 90, 14);
-		getContentPane().add(lblNewLabel_11_1_8_1_1);
-
 		JRadioButton S30_20T = new JRadioButton("20T");
+		S30_20T.setName("1");
 		S30_20T.setBounds(138, 264, 63, 23);
 		getContentPane().add(S30_20T);
 
 		JRadioButton S45_20T = new JRadioButton("20T");
+		S45_20T.setName("2");
 		S45_20T.setBounds(138, 285, 63, 23);
 		getContentPane().add(S45_20T);
 
 		JRadioButton S60_20T = new JRadioButton("20T");
+		S60_20T.setName("3");
 		S60_20T.setBounds(138, 304, 63, 23);
 		getContentPane().add(S60_20T);
 
 		JRadioButton S90_20T = new JRadioButton("20T");
+		S90_20T.setName("4");
 		S90_20T.setBounds(138, 324, 61, 23);
 		getContentPane().add(S90_20T);
 
 		JRadioButton S130_20T = new JRadioButton("20T");
+		S130_20T.setName("5");
 		S130_20T.setBounds(138, 343, 63, 23);
 		getContentPane().add(S130_20T);
 
 		JRadioButton S170_20T = new JRadioButton("20T");
+		S170_20T.setName("6");
 		S170_20T.setBounds(138, 366, 63, 23);
 		getContentPane().add(S170_20T);
 
 		JRadioButton S30_28T = new JRadioButton("28T");
+		S30_28T.setName("12");
 		S30_28T.setBounds(201, 265, 63, 23);
 		getContentPane().add(S30_28T);
 
 		JRadioButton S45_28T = new JRadioButton("28T");
+		S45_28T.setName("13");
 		S45_28T.setBounds(201, 286, 63, 23);
 		getContentPane().add(S45_28T);
 
 		JRadioButton S60_28T = new JRadioButton("28T");
+		S60_28T.setName("14");
 		S60_28T.setBounds(201, 305, 63, 23);
 		getContentPane().add(S60_28T);
 
 		JRadioButton S130_28T = new JRadioButton("28T");
+		S130_28T.setName("16");
 		S130_28T.setBounds(201, 344, 63, 23);
 		getContentPane().add(S130_28T);
 
 		JRadioButton S90_28T = new JRadioButton("28T");
+		S90_28T.setName("15");
 		S90_28T.setBounds(201, 324, 63, 23);
 		getContentPane().add(S90_28T);
 
 		JRadioButton S170_28T = new JRadioButton("28T");
+		S170_28T.setName("17");
 		S170_28T.setBounds(201, 367, 63, 23);
 		getContentPane().add(S170_28T);
 
 		JRadioButton S30_20TRT = new JRadioButton("20T RT");
+		S30_20TRT.setName("23");
 		S30_20TRT.setBounds(267, 265, 73, 23);
 		getContentPane().add(S30_20TRT);
 
 		JRadioButton S45_20TRT = new JRadioButton("20T RT");
+		S45_20TRT.setName("24");
 		S45_20TRT.setBounds(266, 286, 73, 23);
 		getContentPane().add(S45_20TRT);
 
 		JRadioButton S60_20TRT = new JRadioButton("20T RT");
+		S60_20TRT.setName("25");
 		S60_20TRT.setBounds(266, 305, 73, 23);
 		getContentPane().add(S60_20TRT);
 
 		JRadioButton S90_20TRT = new JRadioButton("20T RT");
+		S90_20TRT.setName("26");
 		S90_20TRT.setBounds(266, 324, 73, 23);
 		getContentPane().add(S90_20TRT);
 
 		JRadioButton S130_20TRT = new JRadioButton("20T RT");
+		S130_20TRT.setName("27");
 		S130_20TRT.setBounds(267, 344, 73, 23);
 		getContentPane().add(S130_20TRT);
 
 		JRadioButton S170_20TRT = new JRadioButton("20T RT");
+		S170_20TRT.setName("28");
 		S170_20TRT.setBounds(266, 367, 73, 23);
 		getContentPane().add(S170_20TRT);
 
 		JRadioButton S30_28TRT = new JRadioButton("28T RT");
+		S30_28TRT.setName("34");
 		S30_28TRT.setBounds(342, 265, 73, 23);
 		getContentPane().add(S30_28TRT);
 
 		JRadioButton S45_28TRT = new JRadioButton("28T RT");
+		S45_28TRT.setName("35");
 		S45_28TRT.setBounds(342, 286, 73, 23);
 		getContentPane().add(S45_28TRT);
 
 		JRadioButton S60_28TRT = new JRadioButton("28T RT");
+		S60_28TRT.setName("36");
 		S60_28TRT.setBounds(341, 305, 73, 23);
 		getContentPane().add(S60_28TRT);
 
 		JRadioButton S90_28TRT = new JRadioButton("28T RT");
+		S90_28TRT.setName("37");
 		S90_28TRT.setBounds(342, 324, 73, 23);
 		getContentPane().add(S90_28TRT);
 
 		JRadioButton S130_28TRT = new JRadioButton("28T RT");
+		S130_28TRT.setName("38");
 		S130_28TRT.setBounds(341, 344, 73, 23);
 		getContentPane().add(S130_28TRT);
 
 		JRadioButton S170_28TRT = new JRadioButton("28T RT");
+		S170_28TRT.setName("39");
 		S170_28TRT.setBounds(342, 367, 73, 23);
 		getContentPane().add(S170_28TRT);
 
 		JRadioButton S220_20T = new JRadioButton("20T");
+		S220_20T.setName("7");
 		S220_20T.setBounds(521, 264, 63, 23);
 		getContentPane().add(S220_20T);
 
 		JRadioButton S300_20T = new JRadioButton("20T");
+		S300_20T.setName("8");
 		S300_20T.setBounds(521, 285, 63, 23);
 		getContentPane().add(S300_20T);
 
 		JRadioButton S370_20T = new JRadioButton("20T");
+		S370_20T.setName("9");
 		S370_20T.setBounds(521, 304, 63, 23);
 		getContentPane().add(S370_20T);
 
 		JRadioButton S450_20T = new JRadioButton("20T");
+		S450_20T.setName("10");
 		S450_20T.setBounds(521, 324, 61, 23);
 		getContentPane().add(S450_20T);
 
 		JRadioButton S500_20T = new JRadioButton("20T");
+		S500_20T.setName("11");
 		S500_20T.setBounds(521, 343, 63, 23);
 		getContentPane().add(S500_20T);
 
-		JRadioButton S5002_20T = new JRadioButton("20T");
-		S5002_20T.setBounds(521, 365, 63, 23);
-		getContentPane().add(S5002_20T);
-
 		JRadioButton S220_28T = new JRadioButton("28T");
+		S220_28T.setName("18");
 		S220_28T.setBounds(584, 265, 63, 23);
 		getContentPane().add(S220_28T);
 
 		JRadioButton S370_28T = new JRadioButton("28T");
+		S370_28T.setName("20");
 		S370_28T.setBounds(584, 305, 63, 23);
 		getContentPane().add(S370_28T);
 
 		JRadioButton S300_28T = new JRadioButton("28T");
+		S300_28T.setName("19");
 		S300_28T.setBounds(584, 286, 63, 23);
 		getContentPane().add(S300_28T);
 
 		JRadioButton S450_28T = new JRadioButton("28T");
+		S450_28T.setName("21");
 		S450_28T.setBounds(584, 324, 63, 23);
 		getContentPane().add(S450_28T);
 
 		JRadioButton S500_28T = new JRadioButton("28T");
+		S500_28T.setName("22");
 		S500_28T.setBounds(584, 344, 63, 23);
 		getContentPane().add(S500_28T);
 
-		JRadioButton S5002_28T = new JRadioButton("28T");
-		S5002_28T.setBounds(584, 366, 63, 23);
-		getContentPane().add(S5002_28T);
-
 		JRadioButton S220_20TRT = new JRadioButton("20T RT");
+		S220_20TRT.setName("29");
 		S220_20TRT.setBounds(650, 265, 73, 23);
 		getContentPane().add(S220_20TRT);
 
 		JRadioButton S220_28TRT = new JRadioButton("28T RT");
+		S220_28TRT.setName("40");
 		S220_28TRT.setBounds(725, 265, 73, 23);
 		getContentPane().add(S220_28TRT);
 
 		JRadioButton S300_28TRT = new JRadioButton("28T RT");
+		S300_28TRT.setName("41");
 		S300_28TRT.setBounds(725, 286, 73, 23);
 		getContentPane().add(S300_28TRT);
 
 		JRadioButton S300_20TRT = new JRadioButton("20T RT");
+		S300_20TRT.setName("30");
 		S300_20TRT.setBounds(649, 286, 73, 23);
 		getContentPane().add(S300_20TRT);
 
 		JRadioButton S370_20TRT = new JRadioButton("20T RT");
+		S370_20TRT.setName("31");
 		S370_20TRT.setBounds(649, 305, 73, 23);
 		getContentPane().add(S370_20TRT);
 
 		JRadioButton S370_28TRT = new JRadioButton("28T RT");
+		S370_28TRT.setName("42");
 		S370_28TRT.setBounds(724, 305, 73, 23);
 		getContentPane().add(S370_28TRT);
 
 		JRadioButton S450_28TRT = new JRadioButton("28T RT");
+		S450_28TRT.setName("43");
 		S450_28TRT.setBounds(725, 324, 73, 23);
 		getContentPane().add(S450_28TRT);
 
 		JRadioButton S450_20TRT = new JRadioButton("20T RT");
+		S450_20TRT.setName("32");
 		S450_20TRT.setBounds(649, 324, 73, 23);
 		getContentPane().add(S450_20TRT);
 
 		JRadioButton S500_20TRT = new JRadioButton("20T RT");
+		S500_20TRT.setName("33");
 		S500_20TRT.setBounds(650, 344, 73, 23);
 		getContentPane().add(S500_20TRT);
 
 		JRadioButton S500_28TRT = new JRadioButton("28T RT");
+		S500_28TRT.setName("44");
 		S500_28TRT.setBounds(724, 344, 73, 23);
 		getContentPane().add(S500_28TRT);
-
-		JRadioButton S5002_28TRT = new JRadioButton("28T RT");
-		S5002_28TRT.setBounds(725, 366, 73, 23);
-		getContentPane().add(S5002_28TRT);
-
-		JRadioButton S5002_20TRT = new JRadioButton("20T RT");
-		S5002_20TRT.setBounds(649, 366, 73, 23);
-		getContentPane().add(S5002_20TRT);
 
 		SEMI_KMTROS.add(S30_20T);
 		SEMI_KMTROS.add(S30_28T);
@@ -608,11 +790,6 @@ public class Inicio extends JFrame {
 		SEMI_KMTROS.add(S500_28TRT);
 		SEMI_KMTROS.add(S500_20TRT);
 
-		SEMI_KMTROS.add(S5002_20T);
-		SEMI_KMTROS.add(S5002_28T);
-		SEMI_KMTROS.add(S5002_28TRT);
-		SEMI_KMTROS.add(S5002_20TRT);
-
 		JLabel SFM = new JLabel("SFM(15 X 2.90 X 2.90 X 26T)KM");
 		SFM.setForeground(new Color(128, 0, 0));
 		SFM.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -620,46 +797,57 @@ public class Inicio extends JFrame {
 		getContentPane().add(SFM);
 
 		JRadioButton SFM30 = new JRadioButton("30");
+		SFM30.setName("45");
 		SFM30.setBounds(225, 393, 39, 23);
 		getContentPane().add(SFM30);
 
 		JRadioButton SFM45 = new JRadioButton("45");
+		SFM45.setName("46");
 		SFM45.setBounds(277, 393, 43, 23);
 		getContentPane().add(SFM45);
 
 		JRadioButton SFM60 = new JRadioButton("60");
+		SFM60.setName("47");
 		SFM60.setBounds(322, 393, 43, 23);
 		getContentPane().add(SFM60);
 
 		JRadioButton SFM90 = new JRadioButton("90");
+		SFM90.setName("48");
 		SFM90.setBounds(370, 393, 45, 23);
 		getContentPane().add(SFM90);
 
 		JRadioButton SFM130 = new JRadioButton("130");
+		SFM130.setName("49");
 		SFM130.setBounds(417, 392, 52, 23);
 		getContentPane().add(SFM130);
 
 		JRadioButton SFM170 = new JRadioButton("170");
+		SFM170.setName("50");
 		SFM170.setBounds(471, 392, 52, 23);
 		getContentPane().add(SFM170);
 
 		JRadioButton SFM220 = new JRadioButton("220");
+		SFM220.setName("51");
 		SFM220.setBounds(524, 392, 52, 23);
 		getContentPane().add(SFM220);
 
 		JRadioButton SFM300 = new JRadioButton("300");
+		SFM300.setName("52");
 		SFM300.setBounds(584, 392, 52, 23);
 		getContentPane().add(SFM300);
 
 		JRadioButton SFM370 = new JRadioButton("370");
+		SFM370.setName("53");
 		SFM370.setBounds(632, 392, 52, 23);
 		getContentPane().add(SFM370);
 
 		JRadioButton SFM450 = new JRadioButton("450");
+		SFM450.setName("54");
 		SFM450.setBounds(684, 392, 52, 23);
 		getContentPane().add(SFM450);
 
 		JRadioButton SFM500 = new JRadioButton("500");
+		SFM500.setName("55");
 		SFM500.setBounds(735, 392, 52, 23);
 		getContentPane().add(SFM500);
 
@@ -688,50 +876,62 @@ public class Inicio extends JFrame {
 		getContentPane().add(AnchoXAlt);
 
 		JRadioButton CM20T = new JRadioButton("20T");
+		CM20T.setName("0");
 		CM20T.setBounds(103, 437, 52, 20);
 		getContentPane().add(CM20T);
 
 		JRadioButton CM30T = new JRadioButton("30T");
+		CM30T.setName("1");
 		CM30T.setBounds(103, 460, 52, 20);
 		getContentPane().add(CM30T);
 
 		JRadioButton CM40T = new JRadioButton("40T");
+		CM40T.setName("2");
 		CM40T.setBounds(103, 482, 52, 20);
 		getContentPane().add(CM40T);
 
 		JRadioButton CM50T = new JRadioButton("50T");
+		CM50T.setName("3");
 		CM50T.setBounds(165, 437, 52, 20);
 		getContentPane().add(CM50T);
 
 		JRadioButton CM60T = new JRadioButton("60T");
+		CM60T.setName("4");
 		CM60T.setBounds(165, 460, 52, 20);
 		getContentPane().add(CM60T);
 
 		JRadioButton A330X330 = new JRadioButton("330X330");
+		A330X330.setName("0");
 		A330X330.setBounds(271, 436, 78, 23);
 		getContentPane().add(A330X330);
 
 		JRadioButton A365X330 = new JRadioButton("365X330");
+		A365X330.setName("1");
 		A365X330.setBounds(271, 459, 78, 23);
 		getContentPane().add(A365X330);
 
 		JRadioButton A365X360 = new JRadioButton("365X360");
+		A365X360.setName("2");
 		A365X360.setBounds(271, 482, 78, 23);
 		getContentPane().add(A365X360);
 
 		JRadioButton A390X360 = new JRadioButton("390X360");
+		A390X360.setName("3");
 		A390X360.setBounds(360, 436, 78, 23);
 		getContentPane().add(A390X360);
 
 		JRadioButton A420X360 = new JRadioButton("420X360");
+		A420X360.setName("4");
 		A420X360.setBounds(360, 459, 78, 23);
 		getContentPane().add(A420X360);
 
 		JRadioButton A500X400 = new JRadioButton("500X400");
+		A500X400.setName("5");
 		A500X400.setBounds(360, 482, 78, 23);
 		getContentPane().add(A500X400);
 
 		JRadioButton A500X460 = new JRadioButton("500X460");
+		A500X460.setName("6");
 		A500X460.setBounds(452, 436, 78, 23);
 		getContentPane().add(A500X460);
 
@@ -742,58 +942,72 @@ public class Inicio extends JFrame {
 		getContentPane().add(EXTENSIBLE);
 
 		JRadioButton EXT20T = new JRadioButton("EXT20T");
+		EXT20T.setName("0");
 		EXT20T.setBounds(100, 518, 73, 23);
 		getContentPane().add(EXT20T);
 
 		JRadioButton EXT28T = new JRadioButton("EXT28T");
+		EXT28T.setName("1");
 		EXT28T.setBounds(100, 538, 73, 23);
 		getContentPane().add(EXT28T);
 
 		JRadioButton EXT35T = new JRadioButton("EXT35T");
+		EXT35T.setName("2");
 		EXT35T.setBounds(100, 558, 73, 23);
 		getContentPane().add(EXT35T);
 
 		JRadioButton EXT18M = new JRadioButton("EXT18M");
+		EXT18M.setName("0");
 		EXT18M.setBounds(231, 518, 73, 23);
 		getContentPane().add(EXT18M);
 
 		JRadioButton EXT20M = new JRadioButton("EXT20M");
+		EXT20M.setName("1");
 		EXT20M.setBounds(230, 538, 73, 23);
 		getContentPane().add(EXT20M);
 
 		JRadioButton EXT22M = new JRadioButton("EXT22M");
+		EXT22M.setName("2");
 		EXT22M.setBounds(231, 558, 73, 23);
 		getContentPane().add(EXT22M);
 
 		JRadioButton EXT24M = new JRadioButton("EXT24M");
+		EXT24M.setName("3");
 		EXT24M.setBounds(307, 518, 73, 23);
 		getContentPane().add(EXT24M);
 
 		JRadioButton EXT26M = new JRadioButton("EXT26M");
+		EXT26M.setName("4");
 		EXT26M.setBounds(307, 538, 73, 23);
 		getContentPane().add(EXT26M);
 
 		JRadioButton EXT260X260 = new JRadioButton("260X260");
+		EXT260X260.setName("0");
 		EXT260X260.setBounds(454, 518, 89, 23);
 		getContentPane().add(EXT260X260);
 
 		JRadioButton EXT300X300 = new JRadioButton("300X300");
+		EXT300X300.setName("1");
 		EXT300X300.setBounds(454, 538, 89, 23);
 		getContentPane().add(EXT300X300);
 
 		JRadioButton EXT330X330 = new JRadioButton("330X330");
+		EXT330X330.setName("2");
 		EXT330X330.setBounds(454, 558, 89, 23);
 		getContentPane().add(EXT330X330);
 
 		JRadioButton EXT365X330 = new JRadioButton("365X330");
+		EXT365X330.setName("3");
 		EXT365X330.setBounds(545, 518, 89, 23);
 		getContentPane().add(EXT365X330);
 
 		JRadioButton EXT365X360 = new JRadioButton("365X360");
+		EXT365X360.setName("4");
 		EXT365X360.setBounds(545, 538, 89, 23);
 		getContentPane().add(EXT365X360);
 
 		JRadioButton EXT365X380 = new JRadioButton("365X380");
+		EXT365X380.setName("5");
 		EXT365X380.setBounds(544, 558, 89, 23);
 		getContentPane().add(EXT365X380);
 
@@ -849,6 +1063,7 @@ public class Inicio extends JFrame {
 		JButton btnCotizar = new JButton("Cotizar");
 		btnCotizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				if (policialsi.isSelected()) {
 					acompañamientopolicial = true;
 				}
@@ -865,6 +1080,7 @@ public class Inicio extends JFrame {
 					pagomas60 = true;
 				}
 				try {
+					AgregarValoresDeSemis(arraysemis);
 					crearWord();
 					JOptionPane.showConfirmDialog(null,
 							"Se ha generado su presupuesto en formato docx con el nombre presupuesto " + FechaActual());
@@ -878,10 +1094,10 @@ public class Inicio extends JFrame {
 		btnCotizar.setBounds(781, 631, 89, 23);
 		getContentPane().add(btnCotizar);
 
-		JLabel lblModeloHidra = new JLabel("MODELO HIDRA:");
+		JLabel lblModeloHidra = new JLabel("MODULO HIDRAULICO:");
 		lblModeloHidra.setForeground(new Color(128, 0, 0));
 		lblModeloHidra.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblModeloHidra.setBounds(95, 588, 106, 14);
+		lblModeloHidra.setBounds(95, 588, 146, 14);
 		getContentPane().add(lblModeloHidra);
 
 		JLabel lblNewLabel_3_1 = new JLabel("CTDAD LINEAS:");
@@ -932,26 +1148,121 @@ public class Inicio extends JFrame {
 		lblNewLabel_12.setIcon(new ImageIcon("C:\\Users\\geo\\eclipse-workspace\\cotizador\\src\\imagenes\\tenaz.png"));
 		lblNewLabel_12.setBounds(907, 40, 172, 135);
 		getContentPane().add(lblNewLabel_12);
-		
+
 		JButton btnNewButton = new JButton("Cambiar valores");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				JFrame valores=new Valores();
+
+				JFrame valores = new Valores();
 				valores.setVisible(true);
 			}
 		});
 		btnNewButton.setBounds(906, 239, 133, 23);
 		getContentPane().add(btnNewButton);
-		
-		JLabel lblNewLabel_13 = new JLabel("VALOR X KM");
-		lblNewLabel_13.setBounds(274, 56, 75, 14);
+
+		JLabel lblNewLabel_13 = new JLabel("VALOR X KM:");
+		lblNewLabel_13.setForeground(Color.BLUE);
+		lblNewLabel_13.setBounds(287, 103, 75, 14);
 		getContentPane().add(lblNewLabel_13);
-		
+
 		textField_1 = new JTextField();
-		textField_1.setBounds(380, 56, 52, 20);
+		textField_1.setBounds(379, 100, 52, 20);
 		getContentPane().add(textField_1);
 		textField_1.setColumns(10);
+
+		JLabel lblNewLabel_14 = new JLabel("CARGA:");
+		lblNewLabel_14.setBounds(48, 53, 43, 14);
+		getContentPane().add(lblNewLabel_14);
+
+		textFieldcarga = new JTextField();
+		textFieldcarga.setColumns(10);
+		textFieldcarga.setBounds(100, 50, 203, 20);
+		getContentPane().add(textFieldcarga);
+
+		JLabel lblNewLabel_14_1 = new JLabel("DIMENSION:");
+		lblNewLabel_14_1.setBounds(370, 53, 68, 14);
+		getContentPane().add(lblNewLabel_14_1);
+
+		textFieldDimens = new JTextField();
+		textFieldDimens.setColumns(10);
+		textFieldDimens.setBounds(440, 50, 93, 20);
+		getContentPane().add(textFieldDimens);
+
+		JButton btnNewButton_1 = new JButton("Probar json");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String direccion = "datos.xlsx";
+				Workbook wb;
+				JRadioButton jrbsemi = getSelection(SEMI_KMTROS);
+				JRadioButton jrbsemiFM = getSelection(SEMI_FM);
+				JRadioButton radio = jrbsemi;
+				int i = 0;
+				try {
+					AgregarValoresDeSemis(arraysemis);
+
+					wb = WorkbookFactory.create(new File(direccion));
+					// Iterator<Sheet> iteradorFilas = wb.sheetIterator();
+					/*
+					 * while (iteradorFilas.hasNext()) { Sheet sheet = (Sheet) iteradorFilas.next();
+					 * }
+					 */
+
+					Sheet hoja = wb.getSheetAt(0);
+
+					/*
+					 * if (jrbsemiFM.isSelected()) { System.out.println("semifm"); hoja =
+					 * wb.getSheetAt(1); radio=jrbsemiFM; System.out.println(semis); }
+					 */
+					Iterator<Row> col = hoja.rowIterator();
+					while (col.hasNext()) {
+						Row row = (Row) col.next();
+						String cellValue = String.valueOf(row.getCell(1));
+						/*
+						 * if (cellValue.equals(radio.getName())) { System.out.println(row.getCell(1));
+						 * }
+						 */
+						arraysemis[i] = Double.parseDouble(cellValue);
+						i++;
+						System.out.println(arraysemis[Integer.parseInt(jrbsemi.getName()) - 1]);
+					}
+				} catch (EncryptedDocumentException | IOException e1) {
+					// TODO Bloque catch generado automáticamente
+					e1.printStackTrace();
+				}
+
+			}
+
+		});
+		btnNewButton_1.setBounds(781, 571, 89, 23);
+		getContentPane().add(btnNewButton_1);
+		JButton btnNewButton_2 = new JButton("New button");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JRadioButton r = getSelection(SEMI_KMTROS);
+				try {
+					AgregarValoresDeSemis(arraysemis);
+					// System.out.println(arraysemis[Integer.parseInt(r.getName()) - 1]);
+					System.out.println(dimevalorXcarreton());
+
+				} catch (EncryptedDocumentException e1) {
+					// TODO Bloque catch generado automáticamente
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnNewButton_2.setBounds(781, 500, 89, 23);
+		getContentPane().add(btnNewButton_2);
+	}
+
+	public JRadioButton getSelection(ButtonGroup group) {
+		for (Enumeration<AbstractButton> e = group.getElements(); e.hasMoreElements();) {
+			JRadioButton b = (JRadioButton) e.nextElement();
+			if (b.getModel() == group.getSelection()) {
+				return b;
+			}
+		}
+
+		return null;
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
@@ -976,10 +1287,12 @@ public class Inicio extends JFrame {
 
 	public void crearWord() throws IOException {
 		XWPFDocument documento = new XWPFDocument();
+
 		Font fuente2 = new Font("Times New Roman", Font.PLAIN, 10);
 		XWPFParagraph parrafo = documento.createParagraph();
 		XWPFParagraph parrafo2 = documento.createParagraph();
 		XWPFParagraph parrafo3 = documento.createParagraph();
+		XWPFParagraph parrafo33 = documento.createParagraph();
 		XWPFParagraph parrafo4 = documento.createParagraph();
 		XWPFParagraph parrafo5 = documento.createParagraph();
 		XWPFParagraph parrafo6 = documento.createParagraph();
@@ -1000,6 +1313,7 @@ public class Inicio extends JFrame {
 		XWPFRun temprun2 = parrafo2.createRun();
 		XWPFRun tempEstimad = parrafo3.createRun();
 		XWPFRun tempOriyD = parrafo4.createRun();
+		XWPFRun tempDIME = parrafo33.createRun();
 		XWPFRun tempservT = parrafo5.createRun();
 		XWPFRun tempunidad = parrafo6.createRun();
 		XWPFRun tempvalor = parrafo7.createRun();
@@ -1018,7 +1332,6 @@ public class Inicio extends JFrame {
 				"C:\\Users\\geo\\eclipse-workspace\\cotizador\\src\\imagenes\\tenazw.png");
 		try {
 			temprun.addPicture(pic, XWPFDocument.PICTURE_TYPE_JPEG, "3", Units.toEMU(370), Units.toEMU(70));
-			System.out.println("agregue");
 		} catch (InvalidFormatException | IOException e) {
 			// TODO Bloque catch generado automáticamente
 			e.printStackTrace();
@@ -1042,6 +1355,8 @@ public class Inicio extends JFrame {
 		tempOriyD.setText("ORIGEN: " + textField_origen.getText() + "" + "     " + "                             "
 				+ "DESTINO: " + textField_destino.getText());
 		tempOriyD.setColor("FF0000");
+		// DIMENSION
+		tempDIME.setText("Carga: " + textFieldcarga.getText() + " con dimensión: " + textFieldDimens.getText());
 		tempservT.setText("Servicio de Transporte: ");
 		tempservT.setTextHighlightColor("green");
 		tempunidad.setText("Unidad: " + DimeUnidad(SEMI_KMTROS));
@@ -1059,7 +1374,7 @@ public class Inicio extends JFrame {
 				+ "Servicios de carretón larga distancia: 25% de adelanto, saldo restante contra entrega de factura hasta 35 días.\r\n"
 				+ "");
 		tempcond5.setText("5- La solicitud y confirmación del servicio debe ser con un mínimo de:\r\n"
-				+ "Servicios de semirremolques/hidrogrua/grua: 48hs hábiles.\r\n"
+				+ "Servicios de semirremolques/hidrogrúa/grúa: 48hs hábiles.\r\n"
 				+ "Servicios locales sobredimensionado hasta 45 ton: 72hs hábiles.\r\n"
 				+ "Servicios mayores a 450 km sobredimensionado hasta 45 ton: 4 días hábiles.\r\n"
 				+ "Servicios mayores a 450 km sobredimensionado mayores a 45 ton: 8 días hábiles.\r\n" + "");
@@ -1068,22 +1383,19 @@ public class Inicio extends JFrame {
 		tempcond7.setText(
 				"7- La solicitud de los requisitos de documentación debe ser con un mínimo de 3 días hábiles, en caso de no ser así y se generen demoras para el ingreso "
 						+ "a planta por falta de ésta, se deberán contemplar un valor de estadía diaria por cada día demorado.");
-		tempcond8.setText(
-				"8- Franquicias:\r\n "+ "Servicios de semirremolques locales (hasta 200km): en el término del día.\r\n"
-						+ "Servicios locales sobredimensionado hasta 45 ton (hasta 200Km): en el término del día.\r\n"
-						+ "Servicios mayores a 200 km: 6hs para la carga y 6hs para la descarga.\r\n"
-						+ "Servicios mayores a 500 km: 8 hs para la carga y 8 para la descarga.\r\n"
-						+ "Servicio de hidrogrua: 4hs mínimo.\r\n" + "Servicio de grúa: 8 hs mínimo.\r\n" + "\r\n"
-						+ "-	En caso de superar dicho plazo se deberá adicionar un valor de estadía cada 24hs.\r\n"
-						+ "");
+		tempcond8.setText("8- Franquicias:\r\n "
+				+ "Servicios de semirremolques locales (hasta 200km): en el término del día.\r\n"
+				+ "Servicios locales sobredimensionado hasta 45 ton (hasta 200Km): en el término del día.\r\n"
+				+ "Servicios mayores a 200 km: 6hs para la carga y 6hs para la descarga.\r\n"
+				+ "Servicios mayores a 500 km: 8 hs para la carga y 8 para la descarga.\r\n"
+				+ "Servicio de hidrogrúa: 4hs mínimo.\r\n" + "Servicio de grúa: 8 hs mínimo.\r\n" + "\r\n"
+				+ "-	En caso de superar dicho plazo se deberá adicionar un valor de estadía cada 24hs.\r\n" + "");
 		tempcond9.setText("9- Todos los valores son más IVA.");
 		tempcond9.setBold(true);
 		tempcond10.setText(
 				"10- Para aquellas cargas mayores o iguales a un alto/ancho de 4,00m. Los valores mencionados quedan sujetos a costo resultante por remoción de obstáculos."
 						+ " En caso de ser adjudicados con la contratación se realizará un relevamiento de ruta en donde se indicará si será necesario y en caso de "
 						+ "serlo el costo del mismo.");
-		System.out.println(FechaActual());
-		System.out.println(ValorServicio());
 		documento.write(out);
 		out.close();
 		pic.close();
@@ -1109,11 +1421,12 @@ public class Inicio extends JFrame {
 		int A = Integer.parseInt(textFDIAS_OPER.getText());
 		int B = Integer.parseInt(textFDiasR.getText());
 		int C = Integer.parseInt(textField_diasC.getText());
-		int diasBS = 0, dcaba = 0, dne = 0, dc = 0, dsfe = 0, acompapoli = 0, operar = 0;
+		int diasBS = 0, dcaba = 0, dne = 0, dc = 0, dsfe = 0, acompaparticular = 0, operar = 0;
 
 		if (acompañamientopolicial) {
 			if (!textField_dBSAS.getText().equals("")) {
 				diasBS = Integer.parseInt(textField_dBSAS.getText());
+
 			}
 			if (!textField_dCABA.getText().equals("")) {
 				dcaba = Integer.parseInt(textField_dCABA.getText());
@@ -1129,30 +1442,59 @@ public class Inicio extends JFrame {
 			}
 		}
 		if (acompañamientoparticular) {
-			acompapoli = A * 6500;
+			acompaparticular = (A + 1) * (int) Math.round(arrayacompa[5]);
 		}
 		if (operario) {
-			operar = A * 3000;
+			operar = (A + 1) * (int) Math.round(arrayacompa[6]);
 		}
-		System.out.println(acompañamientopolicial);
-		System.out.println(acompañamientoparticular);
-		System.out.println(result);
-		System.out.println(valorXcarreton);
 //accesible 10%menos y >60 5% +
-		int b = (((A + B) * valorXcarreton) + (diasBS * 22000 + dcaba * 6000 + dne * 6000 + dc * 10000 + dsfe * 22000) + acompapoli
+		int b = (((A + B + C) * dimevalorXcarreton()) + (diasBS * (int) Math.round(arrayacompa[0])
+				+ dcaba * (int) Math.round(arrayacompa[1]) + dne * (int) Math.round(arrayacompa[2])
+				+ dc * (int) Math.round(arrayacompa[3]) + dsfe * (int) Math.round(arrayacompa[4])) + acompaparticular
 				+ operar);
 		if (pagoaccesible) {
-			return result = b
-					- ((((A + B) * valorXcarreton) + (diasBS * 22000 + dcaba * 6000 + dne * 6000 + dc * 10000 + dsfe * 22000)
-							+ acompapoli + operar) * 0.1);
+			return result = b - ((((A + B) * dimevalorXcarreton()) + (diasBS * (int) Math.round(arrayacompa[0])
+					+ dcaba * (int) Math.round(arrayacompa[1]) + dne * (int) Math.round(arrayacompa[2])
+					+ dc * (int) Math.round(arrayacompa[3]) + dsfe * (int) Math.round(arrayacompa[4]))
+					+ acompaparticular + operar) * 0.1);
 		}
 		if (pagomas60) {
-			return result = ((((A + B) * valorXcarreton) + (diasBS * 22000 + dcaba * 6000 + dne * 6000 + dc * 10000 + dsfe * 22000)
-					+ acompapoli + operar) * 0.05) + b;
+			return result = ((((A + B + C) * dimevalorXcarreton()) + (diasBS * (int) Math.round(arrayacompa[0])
+					+ dcaba * (int) Math.round(arrayacompa[1]) + dne * (int) Math.round(arrayacompa[2])
+					+ dc * (int) Math.round(arrayacompa[3]) + dsfe * (int) Math.round(arrayacompa[4]))
+					+ acompaparticular + operar) * 0.05) + b;
 		} else {
-			return (((A + B) * valorXcarreton) + (diasBS * 22000 + dcaba * 6000 + dne * 6000 + dc * 10000 + dsfe * 22000)
-					+ acompapoli + operar);
+			return (((A + B + C) * dimevalorXcarreton()) + (diasBS * (int) Math.round(arrayacompa[0])
+					+ dcaba * (int) Math.round(arrayacompa[1]) + dne * (int) Math.round(arrayacompa[2])
+					+ dc * (int) Math.round(arrayacompa[3]) + dsfe * (int) Math.round(arrayacompa[4]))
+					+ acompaparticular + operar);
 		}
+	}
+
+	public int dimevalorXcarreton() {
+		JRadioButton radio = getSelection(SEMI_KMTROS);
+		try {
+
+			JRadioButton ext = getSelection(EXT_MET);
+			JRadioButton ext2 = getSelection(EXT_AXH);
+			if (ext2.isSelected()) {
+				return (int) Math.round(
+						arrayextensible[Integer.parseInt(radio.getName())][Integer.parseInt(ext.getName())][Integer
+								.parseInt(ext2.getName())]);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		try {
+			JRadioButton carm = getSelection(CARM_AXH);
+			if (carm.isSelected()) {
+				return (int) Math
+						.round(arraycmecanico[Integer.parseInt(radio.getName())][Integer.parseInt(carm.getName())]);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return (int) Math.round(arraysemis[Integer.parseInt(radio.getName()) - 1]);
 	}
 
 	public String FechaActual() {
@@ -1161,3 +1503,4 @@ public class Inicio extends JFrame {
 		return format.format(fech);
 	}
 }
+//3 numeros sumados * precio*ctdad de lineas
