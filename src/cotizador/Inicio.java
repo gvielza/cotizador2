@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.Position;
 
 import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.hpbf.model.MainContents;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -25,6 +26,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.w3c.dom.Document;
 
+import com.mysql.cj.x.protobuf.MysqlxSession.Reset;
 import com.mysql.cj.xdevapi.JsonParser;
 
 import javax.swing.JTextField;
@@ -108,6 +110,7 @@ public class Inicio extends JFrame {
 	public double[][][] arrayextensible = new double[3][5][6];
 	public double[] arraymodloh = new double[6];
 	public double[] arrayacompa = new double[7];
+	public double [] arraypermisos=new double [5];
 
 	public void AgregarValoresDeSemis(double[] a) {
 		Workbook w;
@@ -128,6 +131,7 @@ public class Inicio extends JFrame {
 			AgregarValoresDeMec(arraycmecanico);
 			AgregarValoresDeExtensible(arrayextensible);
 			AgregarValoresDemoduloHidra(arraymodloh);
+			AgregarValoresDepermiso(arraypermisos);
 		} catch (EncryptedDocumentException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -146,6 +150,26 @@ public class Inicio extends JFrame {
 				Row row = (Row) col.next();
 				String cellValue = String.valueOf(row.getCell(1));
 				arraysemis[i] = Double.parseDouble(cellValue);
+				i++;
+			}
+			w.close();
+		} catch (EncryptedDocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void AgregarValoresDepermiso(double[] a) {
+		Workbook w;
+		int i = 0;
+		try {
+			w = WorkbookFactory.create(new File("datos.xlsx"));
+			Sheet hoja = w.getSheetAt(6);
+			Iterator<Row> col = hoja.rowIterator();
+			while (col.hasNext()) {
+				Row row = (Row) col.next();
+				String cellValue = String.valueOf(row.getCell(1));
+				a[i] = Double.parseDouble(cellValue);
 				i++;
 			}
 			w.close();
@@ -367,7 +391,8 @@ public class Inicio extends JFrame {
 		textField_dCABA.setBounds(165, 176, 52, 20);
 		getContentPane().add(textField_dCABA);
 
-		JRadioButtonMenuItem rdbtnmntmNewRadioItem = new JRadioButtonMenuItem("PERMISO PO.");
+		JRadioButtonMenuItem rdbtnmntmNewRadioItem = new JRadioButtonMenuItem("PERMISO P.");
+		rdbtnmntmNewRadioItem.setName("0");
 		rdbtnmntmNewRadioItem.setBounds(247, 156, 133, 19);
 		getContentPane().add(rdbtnmntmNewRadioItem);
 
@@ -386,19 +411,23 @@ public class Inicio extends JFrame {
 		textField_dSFE.setBounds(165, 236, 52, 20);
 		getContentPane().add(textField_dSFE);
 
-		JRadioButtonMenuItem rdbtnmntmNewRadioItem_1 = new JRadioButtonMenuItem("PERMISO PO.");
+		JRadioButtonMenuItem rdbtnmntmNewRadioItem_1 = new JRadioButtonMenuItem("PERMISO P.");
+		rdbtnmntmNewRadioItem_1.setName("1");
 		rdbtnmntmNewRadioItem_1.setBounds(247, 175, 133, 19);
 		getContentPane().add(rdbtnmntmNewRadioItem_1);
 
-		JRadioButtonMenuItem rdbtnmntmNewRadioItem_2 = new JRadioButtonMenuItem("PERMISO PO.");
+		JRadioButtonMenuItem rdbtnmntmNewRadioItem_2 = new JRadioButtonMenuItem("PERMISO P.");
+		rdbtnmntmNewRadioItem_2.setName("2");
 		rdbtnmntmNewRadioItem_2.setBounds(247, 195, 133, 19);
 		getContentPane().add(rdbtnmntmNewRadioItem_2);
 
-		JRadioButtonMenuItem rdbtnmntmNewRadioItem_3 = new JRadioButtonMenuItem("PERMISO PO.");
+		JRadioButtonMenuItem rdbtnmntmNewRadioItem_3 = new JRadioButtonMenuItem("PERMISO P.");
+		rdbtnmntmNewRadioItem_3.setName("3");
 		rdbtnmntmNewRadioItem_3.setBounds(247, 216, 133, 19);
 		getContentPane().add(rdbtnmntmNewRadioItem_3);
 
-		JRadioButtonMenuItem rdbtnmntmNewRadioItem_4 = new JRadioButtonMenuItem("PERMISO PO.");
+		JRadioButtonMenuItem rdbtnmntmNewRadioItem_4 = new JRadioButtonMenuItem("PERMISO P.");
+		rdbtnmntmNewRadioItem_4.setName("4");
 		rdbtnmntmNewRadioItem_4.setBounds(247, 238, 133, 19);
 		getContentPane().add(rdbtnmntmNewRadioItem_4);
 
@@ -1110,26 +1139,32 @@ public class Inicio extends JFrame {
 		getContentPane().add(textField);
 
 		JRadioButton H330X330X15 = new JRadioButton("330X330X15");
+		H330X330X15.setName("0");
 		H330X330X15.setBounds(93, 631, 115, 23);
 		getContentPane().add(H330X330X15);
 
 		JRadioButton H330X330X22 = new JRadioButton("330X330X22");
+		H330X330X22.setName("1");
 		H330X330X22.setBounds(93, 657, 115, 23);
 		getContentPane().add(H330X330X22);
 
 		JRadioButton H330X365X22 = new JRadioButton("330X365X22");
+		H330X365X22.setName("2");
 		H330X365X22.setBounds(93, 683, 124, 23);
 		getContentPane().add(H330X365X22);
 
 		JRadioButton H390X365X24 = new JRadioButton("390X365X24");
+		H390X365X24.setName("3");
 		H390X365X24.setBounds(241, 634, 99, 23);
 		getContentPane().add(H390X365X24);
 
 		JRadioButton H410X360X30 = new JRadioButton("410X360X30");
+		H410X360X30.setName("4");
 		H410X360X30.setBounds(241, 657, 99, 23);
 		getContentPane().add(H410X360X30);
 
 		JRadioButton H410X360X35 = new JRadioButton("410X360X35");
+		H410X360X35.setName("5");
 		H410X360X35.setBounds(241, 683, 99, 23);
 		getContentPane().add(H410X360X35);
 
@@ -1145,10 +1180,10 @@ public class Inicio extends JFrame {
 		tipocliente.add(PAGOMASDIAS);
 
 		JLabel lblNewLabel_12 = new JLabel("");
-		lblNewLabel_12.setIcon(new ImageIcon("C:\\Users\\geo\\eclipse-workspace\\cotizador\\src\\imagenes\\tenaz.png"));
+		lblNewLabel_12.setIcon(new ImageIcon("src\\imagenes\\tenaz.png"));
 		lblNewLabel_12.setBounds(907, 40, 172, 135);
 		getContentPane().add(lblNewLabel_12);
-
+		
 		JButton btnNewButton = new JButton("Cambiar valores");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1187,71 +1222,17 @@ public class Inicio extends JFrame {
 		textFieldDimens.setColumns(10);
 		textFieldDimens.setBounds(440, 50, 93, 20);
 		getContentPane().add(textFieldDimens);
-
-		JButton btnNewButton_1 = new JButton("Probar json");
+		
+		JButton btnNewButton_1 = new JButton("New button");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String direccion = "datos.xlsx";
-				Workbook wb;
-				JRadioButton jrbsemi = getSelection(SEMI_KMTROS);
-				JRadioButton jrbsemiFM = getSelection(SEMI_FM);
-				JRadioButton radio = jrbsemi;
-				int i = 0;
-				try {
-					AgregarValoresDeSemis(arraysemis);
-
-					wb = WorkbookFactory.create(new File(direccion));
-					// Iterator<Sheet> iteradorFilas = wb.sheetIterator();
-					/*
-					 * while (iteradorFilas.hasNext()) { Sheet sheet = (Sheet) iteradorFilas.next();
-					 * }
-					 */
-
-					Sheet hoja = wb.getSheetAt(0);
-
-					/*
-					 * if (jrbsemiFM.isSelected()) { System.out.println("semifm"); hoja =
-					 * wb.getSheetAt(1); radio=jrbsemiFM; System.out.println(semis); }
-					 */
-					Iterator<Row> col = hoja.rowIterator();
-					while (col.hasNext()) {
-						Row row = (Row) col.next();
-						String cellValue = String.valueOf(row.getCell(1));
-						/*
-						 * if (cellValue.equals(radio.getName())) { System.out.println(row.getCell(1));
-						 * }
-						 */
-						arraysemis[i] = Double.parseDouble(cellValue);
-						i++;
-						System.out.println(arraysemis[Integer.parseInt(jrbsemi.getName()) - 1]);
-					}
-				} catch (EncryptedDocumentException | IOException e1) {
-					// TODO Bloque catch generado automáticamente
-					e1.printStackTrace();
-				}
-
+				AgregarValoresDeSemis(arraysemis);
+				System.out.println(arraypermisos[0]);
+				System.out.println(arraypermisos[4]);
 			}
-
 		});
-		btnNewButton_1.setBounds(781, 571, 89, 23);
+		btnNewButton_1.setBounds(794, 157, 89, 23);
 		getContentPane().add(btnNewButton_1);
-		JButton btnNewButton_2 = new JButton("New button");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JRadioButton r = getSelection(SEMI_KMTROS);
-				try {
-					AgregarValoresDeSemis(arraysemis);
-					// System.out.println(arraysemis[Integer.parseInt(r.getName()) - 1]);
-					System.out.println(dimevalorXcarreton());
-
-				} catch (EncryptedDocumentException e1) {
-					// TODO Bloque catch generado automáticamente
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnNewButton_2.setBounds(781, 500, 89, 23);
-		getContentPane().add(btnNewButton_2);
 	}
 
 	public JRadioButton getSelection(ButtonGroup group) {
@@ -1417,6 +1398,7 @@ public class Inicio extends JFrame {
 
 	public double ValorServicio() {
 		double result = 0;
+		double permiso=0;
 
 		int A = Integer.parseInt(textFDIAS_OPER.getText());
 		int B = Integer.parseInt(textFDiasR.getText());
@@ -1473,8 +1455,10 @@ public class Inicio extends JFrame {
 
 	public int dimevalorXcarreton() {
 		JRadioButton radio = getSelection(SEMI_KMTROS);
-		try {
-
+		if(!textField.getText().equals("")) {
+						return Integer.parseInt(textField.getText())*(int)Math.round(arraymodloh[Integer.parseInt(radio.getName())]);
+		}
+				try {
 			JRadioButton ext = getSelection(EXT_MET);
 			JRadioButton ext2 = getSelection(EXT_AXH);
 			if (ext2.isSelected()) {
