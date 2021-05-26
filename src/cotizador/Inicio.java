@@ -84,7 +84,7 @@ public class Inicio extends JFrame {
 
 	public JTextField textField_origen;
 	private JTextField textField_destino;
-	private JTextField textField_kmrec;
+	private JTextField tf_kmrec;
 	private JTextField textFDIAS_OPER;
 	private JTextField textFDiasR;
 	private JTextField textField_diasC;
@@ -111,6 +111,7 @@ public class Inicio extends JFrame {
 	public double[] arraymodloh = new double[6];
 	public double[] arrayacompa = new double[7];
 	public double [] arraypermisos=new double [5];
+	  boolean permiso0,permiso1, permiso2, permiso3, permiso4=false;
 
 	public void AgregarValoresDeSemis(double[] a) {
 		Workbook w;
@@ -276,7 +277,7 @@ public class Inicio extends JFrame {
 	boolean operario = false;
 	boolean pagoaccesible, pagomas60 = false;
 
-	private JTextField textField_1;
+	private JTextField tfValorXkm;
 	private JTextField textFieldcarga;
 	private JTextField textFieldDimens;
 
@@ -321,10 +322,10 @@ public class Inicio extends JFrame {
 		lblNewLabel_2.setBounds(48, 103, 103, 14);
 		getContentPane().add(lblNewLabel_2);
 
-		textField_kmrec = new JTextField();
-		textField_kmrec.setBounds(165, 100, 52, 20);
-		getContentPane().add(textField_kmrec);
-		textField_kmrec.setColumns(10);
+		tf_kmrec = new JTextField();
+		tf_kmrec.setBounds(165, 100, 52, 20);
+		getContentPane().add(tf_kmrec);
+		tf_kmrec.setColumns(10);
 
 		JLabel lblNewLabel_3 = new JLabel("DIAS OPERATIVOS: ");
 		lblNewLabel_3.setBounds(48, 78, 118, 14);
@@ -1092,6 +1093,23 @@ public class Inicio extends JFrame {
 		JButton btnCotizar = new JButton("Cotizar");
 		btnCotizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(rdbtnmntmNewRadioItem.isSelected()) {
+					permiso0=true;
+				}
+				if(rdbtnmntmNewRadioItem_1.isSelected()) {
+					permiso1=true;
+				}
+				if(rdbtnmntmNewRadioItem_2.isSelected()) {
+					permiso2=true;
+				}
+				if(rdbtnmntmNewRadioItem_3.isSelected()) {
+					permiso3=true;
+				}
+				if(rdbtnmntmNewRadioItem_4.isSelected()) {
+					permiso4=true;
+				}
+				
+				
 
 				if (policialsi.isSelected()) {
 					acompañamientopolicial = true;
@@ -1183,27 +1201,16 @@ public class Inicio extends JFrame {
 		lblNewLabel_12.setIcon(new ImageIcon("src\\imagenes\\tenaz.png"));
 		lblNewLabel_12.setBounds(907, 40, 172, 135);
 		getContentPane().add(lblNewLabel_12);
-		
-		JButton btnNewButton = new JButton("Cambiar valores");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				JFrame valores = new Valores();
-				valores.setVisible(true);
-			}
-		});
-		btnNewButton.setBounds(906, 239, 133, 23);
-		getContentPane().add(btnNewButton);
 
 		JLabel lblNewLabel_13 = new JLabel("VALOR X KM:");
 		lblNewLabel_13.setForeground(Color.BLUE);
 		lblNewLabel_13.setBounds(287, 103, 75, 14);
 		getContentPane().add(lblNewLabel_13);
 
-		textField_1 = new JTextField();
-		textField_1.setBounds(379, 100, 52, 20);
-		getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		tfValorXkm = new JTextField();
+		tfValorXkm.setBounds(379, 100, 52, 20);
+		getContentPane().add(tfValorXkm);
+		tfValorXkm.setColumns(10);
 
 		JLabel lblNewLabel_14 = new JLabel("CARGA:");
 		lblNewLabel_14.setBounds(48, 53, 43, 14);
@@ -1223,16 +1230,19 @@ public class Inicio extends JFrame {
 		textFieldDimens.setBounds(440, 50, 93, 20);
 		getContentPane().add(textFieldDimens);
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AgregarValoresDeSemis(arraysemis);
-				System.out.println(arraypermisos[0]);
-				System.out.println(arraypermisos[4]);
+				System.out.println(tfValorXkm.getText());
+				double mas500=0;
+				if(!tf_kmrec.getText().equals("")&&!tfValorXkm.getText().equals("")) {
+					mas500=Double.parseDouble(tf_kmrec.getText())*Double.parseDouble(tfValorXkm.getText());
+				}
+				System.out.println(mas500);
 			}
 		});
-		btnNewButton_1.setBounds(794, 157, 89, 23);
-		getContentPane().add(btnNewButton_1);
+		btnNewButton.setBounds(753, 518, 89, 23);
+		getContentPane().add(btnNewButton);
 	}
 
 	public JRadioButton getSelection(ButtonGroup group) {
@@ -1310,7 +1320,7 @@ public class Inicio extends JFrame {
 		XWPFRun tempcond9 = parrafo17.createRun();
 		XWPFRun tempcond10 = parrafo18.createRun();
 		InputStream pic = new FileInputStream(
-				"C:\\Users\\geo\\eclipse-workspace\\cotizador\\src\\imagenes\\tenazw.png");
+				"src\\imagenes\\tenazw.png");
 		try {
 			temprun.addPicture(pic, XWPFDocument.PICTURE_TYPE_JPEG, "3", Units.toEMU(370), Units.toEMU(70));
 		} catch (InvalidFormatException | IOException e) {
@@ -1320,7 +1330,7 @@ public class Inicio extends JFrame {
 		FileOutputStream out = new FileOutputStream(new File("presupuesto " + FechaActual() + ".docx"));
 		temprun.setText(
 				"                                                                                                                                   "
-						+ "" + "Buenos Aires, " + FechaActual());
+						+ "" + "                                           Buenos Aires, " + FechaActual());
 		temprun.setFontFamily("Times New Roman");
 		temprun.setBold(true);
 		temprun.addBreak(BreakType.TEXT_WRAPPING);
@@ -1395,10 +1405,33 @@ public class Inicio extends JFrame {
 
 		return unidad;
 	}
+	public double valordepermiso() {
+		
+		return 0;
+	}
 
 	public double ValorServicio() {
 		double result = 0;
 		double permiso=0;
+		double mas500=0;
+		if(!tf_kmrec.getText().equals("")&&!tfValorXkm.getText().equals("")) {
+			mas500=Double.parseDouble(tf_kmrec.getText())*Double.parseDouble(tfValorXkm.getText());
+		}
+		if(permiso0) {
+			permiso+=arraypermisos[0];
+		}
+		if(permiso1) {
+			permiso+=arraypermisos[1];
+		}
+		if(permiso2) {
+			permiso+=arraypermisos[2];
+		}
+		if(permiso3) {
+			permiso+=arraypermisos[3];
+		}
+		if(permiso4) {
+			permiso+=arraypermisos[4];
+		}
 
 		int A = Integer.parseInt(textFDIAS_OPER.getText());
 		int B = Integer.parseInt(textFDiasR.getText());
@@ -1438,18 +1471,18 @@ public class Inicio extends JFrame {
 			return result = b - ((((A + B) * dimevalorXcarreton()) + (diasBS * (int) Math.round(arrayacompa[0])
 					+ dcaba * (int) Math.round(arrayacompa[1]) + dne * (int) Math.round(arrayacompa[2])
 					+ dc * (int) Math.round(arrayacompa[3]) + dsfe * (int) Math.round(arrayacompa[4]))
-					+ acompaparticular + operar) * 0.1);
+					+ acompaparticular + operar) * 0.1)+permiso+mas500;
 		}
 		if (pagomas60) {
 			return result = ((((A + B + C) * dimevalorXcarreton()) + (diasBS * (int) Math.round(arrayacompa[0])
 					+ dcaba * (int) Math.round(arrayacompa[1]) + dne * (int) Math.round(arrayacompa[2])
 					+ dc * (int) Math.round(arrayacompa[3]) + dsfe * (int) Math.round(arrayacompa[4]))
-					+ acompaparticular + operar) * 0.05) + b;
+					+ acompaparticular + operar) * 0.05) + b+permiso+mas500;
 		} else {
 			return (((A + B + C) * dimevalorXcarreton()) + (diasBS * (int) Math.round(arrayacompa[0])
 					+ dcaba * (int) Math.round(arrayacompa[1]) + dne * (int) Math.round(arrayacompa[2])
 					+ dc * (int) Math.round(arrayacompa[3]) + dsfe * (int) Math.round(arrayacompa[4]))
-					+ acompaparticular + operar);
+					+ acompaparticular + operar)+permiso+mas500;
 		}
 	}
 
