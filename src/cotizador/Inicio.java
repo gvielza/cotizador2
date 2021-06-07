@@ -79,6 +79,15 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import javax.swing.JMenuBar;
+import java.awt.Toolkit;
+import java.awt.SystemColor;
+import java.awt.Cursor;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.UIManager;
+import java.awt.Panel;
+import java.awt.Canvas;
+import javax.swing.JLayeredPane;
 
 public class Inicio extends JFrame {
 
@@ -295,8 +304,13 @@ public class Inicio extends JFrame {
 	}
 
 	public Inicio() {
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		getContentPane().setBackground(SystemColor.menu);
+		setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		setTitle("Cotizador TRANSPORTE EL TENAZ \uD83D\uDE9Awww.transporteseltenaz.com.ar\uD83D\uDE9A");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("src\\imagenes\\tenaz.png"));
 		getContentPane().setFont(new Font("Tahoma", Font.BOLD, 11));
-		getContentPane().setForeground(new Color(128, 0, 0));
+		getContentPane().setForeground(Color.WHITE);
 		setBounds(1, 1, 1000, 1000);
 		getContentPane().setLayout(null);
 		this.setExtendedState(MAXIMIZED_BOTH);
@@ -304,6 +318,11 @@ public class Inicio extends JFrame {
 		lblNewLabel.setBounds(48, 28, 52, 14);
 		getContentPane().add(lblNewLabel);
 		textField_origen = new JTextField();
+		textField_origen.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
+		textField_origen.setBackground(new Color(255, 255, 240));
+		textField_origen.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		textField_origen.setForeground(new Color(0, 0, 0));
+		textField_origen.setSelectionColor(new Color(0, 120, 215));
 		textField_origen.setBounds(100, 25, 203, 20);
 		getContentPane().add(textField_origen);
 		textField_origen.setColumns(10);
@@ -313,6 +332,7 @@ public class Inicio extends JFrame {
 		getContentPane().add(lblNewLabel_1);
 
 		textField_destino = new JTextField();
+		textField_destino.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		textField_destino.setBounds(440, 25, 193, 20);
 		getContentPane().add(textField_destino);
 		textField_destino.setColumns(10);
@@ -323,6 +343,7 @@ public class Inicio extends JFrame {
 		getContentPane().add(lblNewLabel_2);
 
 		tf_kmrec = new JTextField();
+		tf_kmrec.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		tf_kmrec.setBounds(165, 100, 52, 20);
 		getContentPane().add(tf_kmrec);
 		tf_kmrec.setColumns(10);
@@ -332,6 +353,7 @@ public class Inicio extends JFrame {
 		getContentPane().add(lblNewLabel_3);
 
 		textFDIAS_OPER = new JTextField();
+		textFDIAS_OPER.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		textFDIAS_OPER.setBounds(165, 75, 52, 20);
 		getContentPane().add(textFDIAS_OPER);
 		textFDIAS_OPER.setColumns(10);
@@ -341,6 +363,7 @@ public class Inicio extends JFrame {
 		getContentPane().add(lblNewLabel_4);
 
 		textFDiasR = new JTextField();
+		textFDiasR.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		textFDiasR.setBounds(379, 75, 52, 20);
 		getContentPane().add(textFDiasR);
 		textFDiasR.setColumns(10);
@@ -350,11 +373,13 @@ public class Inicio extends JFrame {
 		getContentPane().add(lblNewLabel_5);
 
 		textField_diasC = new JTextField();
+		textField_diasC.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		textField_diasC.setBounds(608, 75, 43, 20);
 		getContentPane().add(textField_diasC);
 		textField_diasC.setColumns(10);
 
 		JLabel lblNewLabel_6 = new JLabel("ACOMPA\u00D1AMIENTO POLICIAL :");
+		lblNewLabel_6.setBackground(Color.DARK_GRAY);
 		lblNewLabel_6.setBounds(48, 124, 193, 26);
 		getContentPane().add(lblNewLabel_6);
 
@@ -383,11 +408,13 @@ public class Inicio extends JFrame {
 		getContentPane().add(lblNewLabel_8_4);
 
 		textField_dBSAS = new JTextField();
+		textField_dBSAS.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		textField_dBSAS.setBounds(165, 156, 52, 20);
 		getContentPane().add(textField_dBSAS);
 		textField_dBSAS.setColumns(10);
 
 		textField_dCABA = new JTextField();
+		textField_dCABA.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		textField_dCABA.setColumns(10);
 		textField_dCABA.setBounds(165, 176, 52, 20);
 		getContentPane().add(textField_dCABA);
@@ -398,21 +425,25 @@ public class Inicio extends JFrame {
 		getContentPane().add(rdbtnmntmNewRadioItem);
 
 		textField_dNE = new JTextField();
+		textField_dNE.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		textField_dNE.setColumns(10);
 		textField_dNE.setBounds(165, 196, 52, 20);
 		getContentPane().add(textField_dNE);
 
 		textField_SCRUZ = new JTextField();
+		textField_SCRUZ.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		textField_SCRUZ.setColumns(10);
 		textField_SCRUZ.setBounds(165, 216, 52, 20);
 		getContentPane().add(textField_SCRUZ);
 
 		textField_dSFE = new JTextField();
+		textField_dSFE.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		textField_dSFE.setColumns(10);
 		textField_dSFE.setBounds(165, 236, 52, 20);
 		getContentPane().add(textField_dSFE);
 
 		JRadioButtonMenuItem rdbtnmntmNewRadioItem_1 = new JRadioButtonMenuItem("PERMISO P.");
+		rdbtnmntmNewRadioItem_1.setBorder(null);
 		rdbtnmntmNewRadioItem_1.setName("1");
 		rdbtnmntmNewRadioItem_1.setBounds(247, 175, 133, 19);
 		getContentPane().add(rdbtnmntmNewRadioItem_1);
@@ -433,18 +464,22 @@ public class Inicio extends JFrame {
 		getContentPane().add(rdbtnmntmNewRadioItem_4);
 
 		JRadioButton policialsi = new JRadioButton("SI");
+		policialsi.setBackground(Color.LIGHT_GRAY);
 		policialsi.setBounds(247, 124, 43, 23);
 		getContentPane().add(policialsi);
 
 		JRadioButton policialno = new JRadioButton("NO");
+		policialno.setBackground(Color.LIGHT_GRAY);
 		policialno.setBounds(287, 124, 43, 23);
 		getContentPane().add(policialno);
 
 		JRadioButton particularsi = new JRadioButton("SI");
+		particularsi.setBackground(Color.LIGHT_GRAY);
 		particularsi.setBounds(608, 124, 43, 23);
 		getContentPane().add(particularsi);
 
 		JRadioButton particularno = new JRadioButton("NO");
+		particularno.setBackground(Color.LIGHT_GRAY);
 		particularno.setBounds(655, 124, 43, 23);
 		getContentPane().add(particularno);
 
@@ -453,6 +488,7 @@ public class Inicio extends JFrame {
 		getContentPane().add(lblNewLabel_9);
 
 		JRadioButton operariosi = new JRadioButton("SI");
+		operariosi.setToolTipText("");
 		operariosi.setBounds(524, 157, 109, 23);
 		getContentPane().add(operariosi);
 
@@ -1090,7 +1126,8 @@ public class Inicio extends JFrame {
 		PAGOMASDIAS.setBounds(608, 657, 166, 23);
 		getContentPane().add(PAGOMASDIAS);
 
-		JButton btnCotizar = new JButton("Cotizar");
+		JButton btnCotizar = new JButton("COTIZAR \uD83D\uDCC3");
+		btnCotizar.setBackground(SystemColor.textHighlight);
 		btnCotizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(rdbtnmntmNewRadioItem.isSelected()) {
@@ -1132,13 +1169,13 @@ public class Inicio extends JFrame {
 					JOptionPane.showConfirmDialog(null,
 							"Se ha generado su presupuesto en formato docx con el nombre presupuesto " + FechaActual());
 				} catch (IOException e1) {
-					// TODO Bloque catch generado automáticamente
+				JOptionPane.showInternalMessageDialog(null, "mal");
 					e1.printStackTrace();
 				}
 
 			}
 		});
-		btnCotizar.setBounds(781, 631, 89, 23);
+		btnCotizar.setBounds(808, 631, 118, 23);
 		getContentPane().add(btnCotizar);
 
 		JLabel lblModeloHidra = new JLabel("MODULO HIDRAULICO:");
@@ -1152,6 +1189,7 @@ public class Inicio extends JFrame {
 		getContentPane().add(lblNewLabel_3_1);
 
 		textField = new JTextField();
+		textField.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		textField.setColumns(10);
 		textField.setBounds(181, 607, 52, 20);
 		getContentPane().add(textField);
@@ -1208,6 +1246,7 @@ public class Inicio extends JFrame {
 		getContentPane().add(lblNewLabel_13);
 
 		tfValorXkm = new JTextField();
+		tfValorXkm.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		tfValorXkm.setBounds(379, 100, 52, 20);
 		getContentPane().add(tfValorXkm);
 		tfValorXkm.setColumns(10);
@@ -1217,6 +1256,7 @@ public class Inicio extends JFrame {
 		getContentPane().add(lblNewLabel_14);
 
 		textFieldcarga = new JTextField();
+		textFieldcarga.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		textFieldcarga.setColumns(10);
 		textFieldcarga.setBounds(100, 50, 203, 20);
 		getContentPane().add(textFieldcarga);
@@ -1226,23 +1266,184 @@ public class Inicio extends JFrame {
 		getContentPane().add(lblNewLabel_14_1);
 
 		textFieldDimens = new JTextField();
+		textFieldDimens.setBorder(new LineBorder(new Color(0, 0, 128), 2, true));
 		textFieldDimens.setColumns(10);
 		textFieldDimens.setBounds(440, 50, 93, 20);
 		getContentPane().add(textFieldDimens);
+		getContentPane().setLayout(null);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
+		JLayeredPane layeredPane = new JLayeredPane();
+		layeredPane.setBackground(Color.DARK_GRAY);
+		layeredPane.setBorder(new LineBorder(Color.ORANGE, 2, true));
+		layeredPane.setBounds(755, 369, 229, 212);
+		getContentPane().add(layeredPane);
+		JTextPane pantalla = new JTextPane();
+		pantalla.setBorder(new LineBorder(new Color(255, 140, 0), 2, true));
+		pantalla.setForeground(new Color(0, 0, 128));
+		pantalla.setFont(new Font("Trebuchet MS", Font.BOLD, 14));
+		pantalla.setBackground(new Color(240, 255, 255));
+		pantalla.setBounds(10, 11, 134, 30);
+		layeredPane.add(pantalla);
+		
+		JButton btn1 = new JButton("1");
+		btn1.setBackground(new Color(135, 206, 250));
+		btn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(tfValorXkm.getText());
-				double mas500=0;
-				if(!tf_kmrec.getText().equals("")&&!tfValorXkm.getText().equals("")) {
-					mas500=Double.parseDouble(tf_kmrec.getText())*Double.parseDouble(tfValorXkm.getText());
-				}
-				System.out.println(mas500);
+				pantalla.setText(pantalla.getText()+"1");
 			}
 		});
-		btnNewButton.setBounds(753, 518, 89, 23);
-		getContentPane().add(btnNewButton);
+		btn1.setBounds(10, 58, 41, 23);
+		layeredPane.add(btn1);
+		
+		JButton btn3 = new JButton("3");
+		btn3.setBackground(new Color(135, 206, 250));
+		btn3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"3");
+			}
+		});
+		btn3.setBounds(103, 58, 41, 23);
+		layeredPane.add(btn3);
+		
+		JButton btn4 = new JButton("4");
+		btn4.setBackground(new Color(135, 206, 250));
+		btn4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"4");
+			}
+		});
+		btn4.setBounds(10, 92, 41, 23);
+		layeredPane.add(btn4);
+		
+		JButton btn5 = new JButton("5");
+		btn5.setBackground(new Color(135, 206, 250));
+		btn5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"5");
+			}
+		});
+		btn5.setBounds(56, 92, 41, 23);
+		layeredPane.add(btn5);
+		
+		JButton btn6 = new JButton("6");
+		btn6.setBackground(new Color(135, 206, 250));
+		btn6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"6");
+			}
+		});
+		btn6.setBounds(103, 92, 41, 23);
+		layeredPane.add(btn6);
+		
+		JButton btn7 = new JButton("7");
+		btn7.setBackground(new Color(135, 206, 250));
+		btn7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"7");
+			}
+		});
+		btn7.setBounds(10, 126, 41, 23);
+		layeredPane.add(btn7);
+		
+		JButton btn8 = new JButton("8");
+		btn8.setBackground(new Color(135, 206, 250));
+		btn8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"8");
+			}
+		});
+		btn8.setBounds(56, 126, 41, 23);
+		layeredPane.add(btn8);
+		
+		JButton btn9 = new JButton("9");
+		btn9.setBackground(new Color(135, 206, 250));
+		btn9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"9");
+			}
+		});
+		btn9.setBounds(103, 126, 41, 23);
+		layeredPane.add(btn9);
+		
+		JButton btnmas = new JButton("+");
+		btnmas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"+");
+			}
+		});
+		btnmas.setBounds(163, 58, 41, 23);
+		layeredPane.add(btnmas);
+		
+		JButton btnmenos = new JButton("-");
+		btnmenos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"-");
+			}
+		});
+		btnmenos.setBounds(164, 92, 41, 23);
+		layeredPane.add(btnmenos);
+		
+		JButton btnmulti = new JButton("*");
+		btnmulti.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"*");
+			}
+		});
+		btnmulti.setBounds(164, 126, 41, 23);
+		layeredPane.add(btnmulti);
+		
+	
+		
+		JButton btnigual = new JButton("=");
+		btnigual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			double valorxpantalla=Double.parseDouble(pantalla.getText());
+			double primervalor=Double.parseDouble(pantalla.getText().substring(0,1));
+			}
+		});
+		btnigual.setBounds(10, 160, 87, 23);
+		layeredPane.add(btnigual);
+		
+		JButton btn2 = new JButton("2");
+		btn2.setBackground(new Color(135, 206, 250));
+		btn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"2");
+				
+			}
+		});
+		btn2.setBounds(56, 58, 41, 23);
+		layeredPane.add(btn2);
+		
+		JButton btndiv = new JButton("/");
+		btndiv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"/");
+			}
+		});
+		btndiv.setBounds(164, 160, 41, 23);
+		layeredPane.add(btndiv);
+		
+		JButton btncoma = new JButton(",");
+		btncoma.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+".");
+			}
+		});
+		btncoma.setBounds(103, 160, 41, 23);
+		layeredPane.add(btncoma);
+		
+		JButton btnC = new JButton("C");
+		btnC.setBackground(new Color(255, 127, 80));
+		btnC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText("");
+			}
+		});
+		btnC.setBounds(154, 11, 51, 30);
+		layeredPane.add(btnC);
+		
+	
 	}
 
 	public JRadioButton getSelection(ButtonGroup group) {
