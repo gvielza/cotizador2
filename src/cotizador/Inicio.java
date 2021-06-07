@@ -1275,7 +1275,7 @@ public class Inicio extends JFrame {
 		JLayeredPane layeredPane = new JLayeredPane();
 		layeredPane.setBackground(Color.DARK_GRAY);
 		layeredPane.setBorder(new LineBorder(Color.ORANGE, 2, true));
-		layeredPane.setBounds(755, 369, 229, 212);
+		layeredPane.setBounds(840, 288, 229, 230);
 		getContentPane().add(layeredPane);
 		JTextPane pantalla = new JTextPane();
 		pantalla.setBorder(new LineBorder(new Color(255, 140, 0), 2, true));
@@ -1371,7 +1371,7 @@ public class Inicio extends JFrame {
 				pantalla.setText(pantalla.getText()+"+");
 			}
 		});
-		btnmas.setBounds(163, 58, 41, 23);
+		btnmas.setBounds(164, 58, 41, 23);
 		layeredPane.add(btnmas);
 		
 		JButton btnmenos = new JButton("-");
@@ -1397,11 +1397,38 @@ public class Inicio extends JFrame {
 		JButton btnigual = new JButton("=");
 		btnigual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			double valorxpantalla=Double.parseDouble(pantalla.getText());
-			double primervalor=Double.parseDouble(pantalla.getText().substring(0,1));
+			String cadena=pantalla.getText();
+			for (int i = 0; i < cadena.length(); i++) {
+				char caracter=cadena.charAt(i);
+				if(caracter=='+') {
+					double primervalor=Double.parseDouble(cadena.substring(0,i));
+					double segundovalor=Double.parseDouble(cadena.substring(i+1,cadena.length()));
+					double resultado=primervalor+segundovalor;
+					pantalla.setText(String.valueOf(resultado));
+				}
+				if(caracter=='-') {
+					double primervalor=Double.parseDouble(cadena.substring(0,i));
+					double segundovalor=Double.parseDouble(cadena.substring(i+1,cadena.length()));
+					double resultado=primervalor-segundovalor;
+					pantalla.setText(String.valueOf(resultado));
+				}
+				if(caracter=='*') {
+					double primervalor=Double.parseDouble(cadena.substring(0,i));
+					double segundovalor=Double.parseDouble(cadena.substring(i+1,cadena.length()));
+					double resultado=primervalor*segundovalor;
+					pantalla.setText(String.valueOf(resultado));
+				}
+				if(caracter=='/') {
+					double primervalor=Double.parseDouble(cadena.substring(0,i));
+					double segundovalor=Double.parseDouble(cadena.substring(i+1,cadena.length()));
+					double resultado=primervalor/segundovalor;
+					pantalla.setText(String.valueOf(resultado));
+				}
+			}
+			
 			}
 		});
-		btnigual.setBounds(10, 160, 87, 23);
+		btnigual.setBounds(10, 194, 195, 23);
 		layeredPane.add(btnigual);
 		
 		JButton btn2 = new JButton("2");
@@ -1442,6 +1469,31 @@ public class Inicio extends JFrame {
 		});
 		btnC.setBounds(154, 11, 51, 30);
 		layeredPane.add(btnC);
+		
+		JButton btn0 = new JButton("0");
+		btn0.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"0");
+			}
+		});
+		btn0.setBackground(new Color(135, 206, 250));
+		btn0.setBounds(56, 160, 41, 23);
+		layeredPane.add(btn0);
+		
+		JButton btnmasmenos = new JButton("s");
+		btnmasmenos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				char valor=pantalla.getText().charAt(0);
+				if(valor=='-') {
+					pantalla.setText(pantalla.getText().substring(1,pantalla.getText().length()));
+				}
+				else
+				pantalla.setText("-"+pantalla.getText());
+			}
+		});
+		btnmasmenos.setBackground(Color.LIGHT_GRAY);
+		btnmasmenos.setBounds(10, 160, 41, 23);
+		layeredPane.add(btnmasmenos);
 		
 	
 	}
