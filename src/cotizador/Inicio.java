@@ -85,6 +85,9 @@ import java.awt.Cursor;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.UIManager;
+import java.awt.Panel;
+import java.awt.Canvas;
+import javax.swing.JLayeredPane;
 
 public class Inicio extends JFrame {
 
@@ -1267,6 +1270,180 @@ public class Inicio extends JFrame {
 		textFieldDimens.setColumns(10);
 		textFieldDimens.setBounds(440, 50, 93, 20);
 		getContentPane().add(textFieldDimens);
+		getContentPane().setLayout(null);
+		
+		JLayeredPane layeredPane = new JLayeredPane();
+		layeredPane.setBackground(Color.DARK_GRAY);
+		layeredPane.setBorder(new LineBorder(Color.ORANGE, 2, true));
+		layeredPane.setBounds(755, 369, 229, 212);
+		getContentPane().add(layeredPane);
+		JTextPane pantalla = new JTextPane();
+		pantalla.setBorder(new LineBorder(new Color(255, 140, 0), 2, true));
+		pantalla.setForeground(new Color(0, 0, 128));
+		pantalla.setFont(new Font("Trebuchet MS", Font.BOLD, 14));
+		pantalla.setBackground(new Color(240, 255, 255));
+		pantalla.setBounds(10, 11, 134, 30);
+		layeredPane.add(pantalla);
+		
+		JButton btn1 = new JButton("1");
+		btn1.setBackground(new Color(135, 206, 250));
+		btn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"1");
+			}
+		});
+		btn1.setBounds(10, 58, 41, 23);
+		layeredPane.add(btn1);
+		
+		JButton btn3 = new JButton("3");
+		btn3.setBackground(new Color(135, 206, 250));
+		btn3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"3");
+			}
+		});
+		btn3.setBounds(103, 58, 41, 23);
+		layeredPane.add(btn3);
+		
+		JButton btn4 = new JButton("4");
+		btn4.setBackground(new Color(135, 206, 250));
+		btn4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"4");
+			}
+		});
+		btn4.setBounds(10, 92, 41, 23);
+		layeredPane.add(btn4);
+		
+		JButton btn5 = new JButton("5");
+		btn5.setBackground(new Color(135, 206, 250));
+		btn5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"5");
+			}
+		});
+		btn5.setBounds(56, 92, 41, 23);
+		layeredPane.add(btn5);
+		
+		JButton btn6 = new JButton("6");
+		btn6.setBackground(new Color(135, 206, 250));
+		btn6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"6");
+			}
+		});
+		btn6.setBounds(103, 92, 41, 23);
+		layeredPane.add(btn6);
+		
+		JButton btn7 = new JButton("7");
+		btn7.setBackground(new Color(135, 206, 250));
+		btn7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"7");
+			}
+		});
+		btn7.setBounds(10, 126, 41, 23);
+		layeredPane.add(btn7);
+		
+		JButton btn8 = new JButton("8");
+		btn8.setBackground(new Color(135, 206, 250));
+		btn8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"8");
+			}
+		});
+		btn8.setBounds(56, 126, 41, 23);
+		layeredPane.add(btn8);
+		
+		JButton btn9 = new JButton("9");
+		btn9.setBackground(new Color(135, 206, 250));
+		btn9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"9");
+			}
+		});
+		btn9.setBounds(103, 126, 41, 23);
+		layeredPane.add(btn9);
+		
+		JButton btnmas = new JButton("+");
+		btnmas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"+");
+			}
+		});
+		btnmas.setBounds(163, 58, 41, 23);
+		layeredPane.add(btnmas);
+		
+		JButton btnmenos = new JButton("-");
+		btnmenos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"-");
+			}
+		});
+		btnmenos.setBounds(164, 92, 41, 23);
+		layeredPane.add(btnmenos);
+		
+		JButton btnmulti = new JButton("*");
+		btnmulti.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"*");
+			}
+		});
+		btnmulti.setBounds(164, 126, 41, 23);
+		layeredPane.add(btnmulti);
+		
+	
+		
+		JButton btnigual = new JButton("=");
+		btnigual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			double valorxpantalla=Double.parseDouble(pantalla.getText());
+			double primervalor=Double.parseDouble(pantalla.getText().substring(0,1));
+			}
+		});
+		btnigual.setBounds(10, 160, 87, 23);
+		layeredPane.add(btnigual);
+		
+		JButton btn2 = new JButton("2");
+		btn2.setBackground(new Color(135, 206, 250));
+		btn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"2");
+				
+			}
+		});
+		btn2.setBounds(56, 58, 41, 23);
+		layeredPane.add(btn2);
+		
+		JButton btndiv = new JButton("/");
+		btndiv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+"/");
+			}
+		});
+		btndiv.setBounds(164, 160, 41, 23);
+		layeredPane.add(btndiv);
+		
+		JButton btncoma = new JButton(",");
+		btncoma.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText(pantalla.getText()+".");
+			}
+		});
+		btncoma.setBounds(103, 160, 41, 23);
+		layeredPane.add(btncoma);
+		
+		JButton btnC = new JButton("C");
+		btnC.setBackground(new Color(255, 127, 80));
+		btnC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pantalla.setText("");
+			}
+		});
+		btnC.setBounds(154, 11, 51, 30);
+		layeredPane.add(btnC);
+		
+	
 	}
 
 	public JRadioButton getSelection(ButtonGroup group) {
